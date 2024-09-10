@@ -4,7 +4,7 @@ Pytorch implementation of the paper [Structured Dialogue Discourse Parsing](http
 ## Installation
 Run the following commands to recreate the environment we used for the development of this project:
 ```sh
-conda create -n sddp python=3.9.6 -y
+# conda create -n sddp python=3.9.6 -y
 conda create -n sddp python=3.11 -y
 conda activate sddp
 # conda install pytorch==1.12.1 cudatoolkit=11.3 -c pytorch -y
