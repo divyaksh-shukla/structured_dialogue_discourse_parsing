@@ -1,0 +1,4 @@
+stac_checkpoints/
+*.pyc
+roberta_base/
+*.pkl

@@ -16,7 +16,7 @@ do
   do
     for epochs in 6
     do
-        python main.py --encoder_model ../roberta_base \
+        python main.py --encoder_model ./roberta_base \
           --output_dir "$prefix"/"$seed"_"$lr"_"$epochs"/ \
           --seed $seed \
           --gpu $GPU_ID \
