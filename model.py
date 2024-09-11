@@ -58,6 +58,7 @@ class Model(nn.Module):
             print (single_tree_score)
             print (labels)
             print (potentials)
+            # TODO: Save the context_pair_input_ids, potentials, labels, single_tree_score, and log_partition for each instance in a batch using a dictionary essentially by running a for loop on batch.shape[0]
             exit()
         log_prob = single_tree_score - log_partition # maximize this
         log_prob = log_prob.mean() # sum of log prob equals joint prob in one batch
