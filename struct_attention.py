@@ -116,6 +116,7 @@ class Struct_Attention(nn.Module):
         labeled_potentials = torch.logsumexp(potential_types, 1)
         log_partition = torch_struct.NonProjectiveDependencyCRF(labeled_potentials, multiroot=True, lengths=context_sentence_masks).partition # log partition
         potentials_expand = self.expand_matrix(potential_types)
+        breakpoint()
         
         if input_labels is None:
             # single root inference. we give up on dangling edus

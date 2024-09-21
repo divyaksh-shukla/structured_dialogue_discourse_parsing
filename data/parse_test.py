@@ -4,6 +4,10 @@ import tqdm
 import json
 import argparse
 
+from custom_logger import setup_logger
+
+log = setup_logger()
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--num_contexts", type=int)
 parser.add_argument("--dir_path", type=str, required=True)
@@ -19,12 +23,14 @@ with open(os.path.join(args.dir_path, '{}/{}.json'.format(args.mode, args.mode))
     raw_data = json.load(infile)
 
 all_links = []
+breakpoint()
 for data in raw_data:
     edges = []
     relations = data['relations']
-    if len(relations) == 0:
-        continue
+    # if len(relations) == 0:
+    #     continue
     parents = {}
+    breakpoint()
     for relation in relations:
         x, y = relation['x'] + 1, relation['y'] + 1
         if x >= args.num_contexts or y >= args.num_contexts: # skip too long dev instances
@@ -52,7 +58,7 @@ for data in raw_data:
     outfile.write('\n'.join(res)+'\n')
     outfile.write('-1 | {} | \n'.format(args.num_contexts-diff)) # -1 is just an identifier used in dataloader
 
-with open(os.path.join(args.dir_path, '{}_links.json'.format(args.mode)), 'w') as outfile:
-    json.dump(all_links, outfile)
+with open(os.path.join(args.dir_path, '{}_links.json'.format(args.mode)), 'w') as jsonoutfile:
+    json.dump(all_links, jsonoutfile)
 
-print ('total golden pairs:', sum([len(link) for link in all_links]))
+# log.info('total golden pairs:', sum([len(link) for link in all_links]))

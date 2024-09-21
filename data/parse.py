@@ -6,6 +6,9 @@ import argparse
 import networkx as nx
 import itertools
 import tqdm
+from custom_logger import setup_logger
+
+log = setup_logger()
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--num_contexts", type=int)
@@ -26,6 +29,7 @@ for data in tqdm.tqdm(raw_data):
     relations = data['relations']
     edus = data['edus']
     if len(relations) == 0: # no useful information
+        log.debug("No relations found")
         continue
     parsed = set()
     subtrees = []
@@ -58,9 +62,11 @@ for data in tqdm.tqdm(raw_data):
     for i in range(len(edus)+1):
         if i not in nodes:
             print ('error 60')
+            log.error("Error in tree construction")
             exit()
 
     connections = [[k,v] for k, v in G.edges()] # arborescence
+    log.debug("Connections: {}".format(connections))
 
     for i in range(0, len(edus), args.slide): # chunk the tree to fit in gpu
         # inclusive
@@ -72,6 +78,7 @@ for data in tqdm.tqdm(raw_data):
             if min_id <= x <= max_id and min_id <= y <= max_id:
                 if x == y:
                     print ('error 74')
+                    log.error("Error in tree construction while chunking to fit in gpu")
                     exit()
                 cur_connections.append([x, y])
         
@@ -92,7 +99,7 @@ for data in tqdm.tqdm(raw_data):
 
         if i + args.num_contexts >= len(edus):
             break
-    
+    log.debug("Subtrees: {}".format(subtrees[0]))
     for subtree in subtrees:
         nodes = sorted([n for n in subtree.nodes()])
         assert nodes[0] == 0
@@ -114,6 +121,7 @@ for data in tqdm.tqdm(raw_data):
         for arc in arcs:
             if arc[0] >= arc[1]:
                 print ('error 116')
+                log.error("Error in tree construction while sorting arcs")
         diff = args.num_contexts-len(text)
         text = text + ['dummy']*diff
         outfile.write('\n'.join(text)+'\n')

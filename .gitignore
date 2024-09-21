@@ -1,4 +1,6 @@
 stac_checkpoints/
+stac_link_only_checkpoints/
 *.pyc
 roberta_base/
 *.pkl
+*.log

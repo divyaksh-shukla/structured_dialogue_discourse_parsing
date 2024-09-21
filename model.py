@@ -52,6 +52,7 @@ class Model(nn.Module):
         
         indices = torch.LongTensor(list(range(batch_size))).unsqueeze(1)
         potentials = potentials.masked_fill(potentials==float('-inf'), 0)
+        breakpoint()
         single_tree_score = potentials[indices, labels[range(batch_size), 2, :], labels[range(batch_size), 0, :], labels[range(batch_size), 1, :]] # [bs, seq_len]
         single_tree_score = single_tree_score.sum(1)
         if (single_tree_score==float('-inf')).float().sum() == 1:
